@@ -1,9 +1,9 @@
-set t_Co=256
 " Load Pathogen
-filetype off
 call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
 filetype plugin indent on
-
+filetype off
+set t_Co=256
 set nocompatible
 set modelines=0
 
