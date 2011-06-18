@@ -1,4 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/Users/dion/Projects/inensu-proxy'
-let g:netrw_dirhist_2='/home/deploy/projects/closetswap/inensu/uwsgi'
