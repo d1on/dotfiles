@@ -4,6 +4,7 @@ call pathogen#helptags()
 filetype plugin indent on
 filetype off
 set t_Co=256
+syntax enable
 set nocompatible
 set modelines=0
 
@@ -49,7 +50,7 @@ set formatoptions=qrn1
 "set list
 "set listchars=tab:▸\ ,eol:¬
 
-nnoremap ; :
+"nnoremap ; :
 
 " Save on losing focus
 au FocusLost * :wa
@@ -62,19 +63,18 @@ au FocusLost * :wa
 syntax enable "Enable syntax hl
 
 if has("gui_running")
-  set guioptions-=T
-  set t_Co=256
-  set background=dark
-  set guifont=Consolas:h14
-  colorscheme solarized
   set colorcolumn=80
   set undofile
   set relativenumber
+  set guioptions-=T
+  set t_Co=256
+  set background=dark
+  set guifont=Consolas:h12
+  colorscheme solarized
   set nonu
 else
   colorscheme solarized
   set background=dark
-
   set nonu
 endif
 
@@ -90,9 +90,13 @@ map <space> /
 map <c-space> ?
 map <silent> <leader><cr> :noh<cr>
 
+" remap Ack toggle
+noremap <leader>a :Ack<space>
 
+" remap NERDTreeToggle
+noremap <leader>, :NERDTreeToggle<cr>
 inoremap kj <Esc>
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v]\ [%p%%]\ [LEN=%L]
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v]\ [%p%%]\ [LEN=%L] 
 
 " Open an new vertical split and switch over to it
 nnoremap <leader>w <C-w>v,C-w>l
@@ -133,3 +137,9 @@ endfunction
 
 let pyindent_nested_paren="&sw*2"
 let pyindent_open_paren="&sw*2"
+" Swallow FocusLost error when leaving buffer
+autocmd BufLeave,FocusLost silent! wall
+
+" Vim syntax highlighting
+au BufRead, BufNewFile *.json set filetype=json
+au! Syntax json source ~/.vim/syntax/json.vim
