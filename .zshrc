@@ -38,9 +38,9 @@ source $ZSH/oh-my-zsh.sh
 alias install="sudo aptitude install"
 
 # Virtualenvs
-export WORKON_HOME="~/.envs"
-export PIP_VIRTUALENV_BASE=$WORKON_HOME
-export PIP_RESPECT_VIRTUALENV=true
-source /usr/local/bin/virtualenvwrapper.sh
+#export WORKON_HOME="~/.envs"
+#export PIP_VIRTUALENV_BASE=$WORKON_HOME
+#export PIP_RESPECT_VIRTUALENV=true
+#source /usr/local/bin/virtualenvwrapper.sh
 bindkey -v
 
