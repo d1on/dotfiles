@@ -1,46 +1,67 @@
-# Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
+#
+# Executes commands at the start of an interactive session.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-#ZSH_THEME="robbyrussell"
-ZSH_THEME="blinks"
+# Include stuff that needs to be set before sourcing init.zsh
+module_path=($module_path /usr/local/lib/zpython)
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
 
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# Pure theme
+autoload -U promptinit && promptinit
+prompt sorin
 
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
+# Include machine specific options (i.e. one for work, one for home, one for VPS
+# hosts, etc.)
 
-# Comment this out to disable weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
+# antigen package management
+source ~/config_files/antigen/antigen.zsh
 
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle jeffknupp/prezto
+antigen bundle command-not-found
+antigen bundle kennethreitz/autoenv
+antigen bundle zsh-users/zsh-history-substring-search
+antigen bundle rupa/z
 
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
+antigen apply
+antigen use prezto
 
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
+source ~/.zshrc.include
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git)
+alias l='ls -lrt'
+alias mmv='noglob zmv -W'
+setopt extended_glob
 
-source $ZSH/oh-my-zsh.sh
+# Don't exit with error when redirecting to existing file
+setopt CLOBBER
 
-# Customize to your needs...
-alias install="sudo aptitude install"
+# list only directories
+alias lsd='ls -1 -d *(/)' 
 
-# Virtualenvs
-#export WORKON_HOME="~/.envs"
-#export PIP_VIRTUALENV_BASE=$WORKON_HOME
-#export PIP_RESPECT_VIRTUALENV=true
-#source /usr/local/bin/virtualenvwrapper.sh
-bindkey -v
 
+# aliases for searching and installing packages on various systems
+# TODO: detect system and use single command to search and install
+# that is system agnostic
+alias u-install='sudo apt-get install $1'
+alias u-search='apt-cache search $1'
+
+alias y-install='sudo yum install $1'
+alias y-search='yum search $1'
+
+alias g='git'
+alias reload='source ~/.zshrc'
+
+alias meh="echo '¯\_(ツ)_/¯' | tee >(pbcopy)"
+alias flipout="echo '(╯°□°）╯︵ ┻━┻' | tee >(pbcopy)"
+alias outflip="echo '┬──┬◡ﾉ(° -°ﾉ)' | tee >(pbcopy)"
+
+#source /Users/jknupp/tools/powerline/powerline/bindings/zsh/powerline.zsh
+
+# Ctrl-R for incremental search in both vi modes
+bindkey "^R" history-incremental-search-backward
