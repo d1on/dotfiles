@@ -1,0 +1,1 @@
+{"net":{"http_server_properties":{"servers":[{"https://auth.simperium.com":{"supports_spdy":true}},{"https://redirector.gvt1.com":{"supports_spdy":true}},{"https://pixel.wp.com":{"supports_spdy":true}}],"version":5}}}

@@ -1,5 +1,14 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+    Plug 'junegunn/vim-easy-align'
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -12,27 +21,30 @@ Plugin 'VundleVim/Vundle.vim'
 
     " Plugins
         " General Vim
+            Plugin 'tmhedberg/SimpylFold'
+            "Plugin 'Valloric/YouCompleteMe'
             Plugin 'scrooloose/nerdtree'
+            Plugin 'ludovicchabant/vim-gutentags'
             Plugin 'scrooloose/nerdcommenter'
             Plugin 'tpope/vim-fugitive'
-            Plugin 'Valloric/YouCompleteMe'
             "Plugin 'Command-T'
             "Plugin 'loremipsum'
             "Plugin 'majutsushi/tagbar'
             "Plugin 'taglist.vim'
             Plugin 'surround.vim'
-            Plugin 'ack.vim'
+            Plugin 'mileszs/ack.vim'
             Plugin 'repeat.vim'
             Plugin 'vim-addon-mw-utils'
             "Plugin 'EasyMotion'
-            Plugin 'Lokaltog/vim-easymotion'
+            Plugin 'easymotion/vim-easymotion'
             Plugin 'snipMate'
             "Plugin 'snipmate-snippets'
             Plugin 'YankRing.vim'
             "Plugin 'mutewinter/vim-indent-guides'
             "Plugin 'rosenfeld/conque-term'
-            Plugin 'kien/ctrlp.vim'
-            Plugin 'scrooloose/syntastic'
+            Plugin 'ctrlp/ctrlp.vim'
+            Plugin 'junegunn/fzf.vim'
+            Plugin 'vim-syntastic/syntastic'
             "Plugin 'sjl/clam.vim'
             "Plugin 'peterhoeg/vim-tmux'
             "Plugin 'benmills/vimux'
@@ -51,7 +63,7 @@ Plugin 'VundleVim/Vundle.vim'
 "            Plugin 'werks.vim'
         " Color Schemes end
         " Coffeescript 
-            Plugin 'kchmck/vim-coffee-script'
+            " Plugin 'kchmck/vim-coffee-script'
         " Coffeescript end 
         " Python
             "Plugin 'pythoncomplete'
@@ -60,6 +72,7 @@ Plugin 'VundleVim/Vundle.vim'
             "Plugin 'alfredodeza/pytest.vim'
             "Plugin 'fs111/pydoc.vim'
             "Plugin 'nvie/vim-pep9'
+            Plugin 'nvie/vim-flake8'
             "Plugin 'nvie/vim-pyflakes'
             "Plugin 'olethanh/Vim-nosecompiler'
             "Plugin 'rope-vim'
@@ -121,7 +134,7 @@ Plugin 'VundleVim/Vundle.vim'
             "Plugin 'snipMate'
             "Plugin 'tpope/vim-haml'
             "Plugin 'kana/vim-smartinput'
-            "Plugin 'sjl/gundo.vim'
+            Plugin 'sjl/gundo.vim'
             "Plugin 'int3/vim-taglist-plus'
             "Plugin 'reinh/vim-makegreen'
             "Plugin 'flomotlik/vim-livereload'
@@ -141,8 +154,30 @@ cmap W! w !sudo tee % >/dev/null
 map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " open/close the quickfix window
-nmap <leader>c :copen<CR>
-nmap <leader>cc :cclose<CR>
+"nmap <leader>c :copen<CR>
+"nmap <leader>cc :cclose<CR>
+
+"let g:ctrlp_user_command = 'find %s -type f' 
+set tags=./tags,tags;$HOME
+" fzf
+" Search all git tracked files
+noremap <leader>f :GFiles<CR>
+" Search all files
+noremap <leader>F :Files<CR>
+" Search buffer
+noremap <leader>b :Buffers<CR>
+" Search buffer history
+noremap <leader>h :History<CR>
+" Search buffer tags
+noremap <leader>t :BTags<CR>
+" Search all tags 
+noremap <leader>T :Tags<CR>
+" Search entire project
+noremap <leader>r :Rg<SPACE>
+noremap <leader>a :Ag<SPACE>
+
+" Simply fold
+let g:SimpylFold_docstring_preview = 1
 
 " ctrl-jklm to navigate between split buffers
 map <c-j> <c-w>j
@@ -155,7 +190,7 @@ map <c-h> <c-w>h
 imap <C-W> <C-O><C-W>
 
 " Load the Gundo window
-map <leader>g :GundoToggle<CR>
+"noremap <leader>g :GundoToggle<CR>
 
 " ==========================================================
 " Basic Settings
@@ -207,7 +242,7 @@ set autowriteall            " I'm serious...
 set noautoread              " Don't automatically re-read changed files.
 set modeline                " Allow vim options to be embedded in files;
 set modelines=5             " they must be within the first or last 5 lines.
-set nofoldenable            " Disable folding, because recently `zO` has been the command I use most frequently
+"set nofoldenable            " Disable folding, because recently `zO` has been the command I use most frequently
 
 """" Messages, Info, Status
 set ls=2                    " allways show status line
@@ -276,7 +311,7 @@ let g:ctrlp_by_filename = 0
 
 " Preview Markdown files with QuickLook
 map <Leader>v :write<cr>:sil !/usr/bin/qlmanage -p % > /dev/null &<cr>:redraw!<cr>
-set guifont=Sauce\ Code\ Powerline\ Semibold:h12
+set guifont=Consolas\ Regular\ 9
 
 set expandtab               " Use spaces, not tabs, for autoindent/tab key.
 
@@ -306,8 +341,9 @@ set laststatus=2
 
 let mapleader = ","
 
-nnoremap / /\v
-vnoremap / /\v
+" vim very magic on permanently
+"nnoremap / /\v
+"vnoremap / /\v
 set ignorecase
 set smartcase
 set gdefault
@@ -333,7 +369,7 @@ set formatoptions=qrn1
 au FocusLost * :wa
 
 " Dash Search https://vim-doc.heroku.com/view?https://raw.github.com/rizzatti/dash.vim/master/doc/dash.txt
-:nmap <silent> <leader>d <Plug>DashSearch
+":nmap <silent> <leader>d <Plug>DashSearch
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -346,16 +382,16 @@ if has("gui_running")
   set guioptions-=L
   set guioptions-=T
   " expand width in fullscreen
-  set fuoptions=maxvert,maxhorz
+  "set fuoptions=maxvert,maxhorz
   " hide tab bar
   "set showtabline=0
-  set colorcolumn=80
+  set colorcolumn=110
   set undofile
   set relativenumber
   set guioptions-=T
   set t_Co=256
   set background=dark
-  set guifont=Source\ Code\ Pro:h12
+  set guifont=Consolas\ Regular\ 9
   colorscheme solarized
   set nonu
 else
@@ -371,7 +407,7 @@ else
   set guioptions-=T
   set t_Co=256
   set background=dark
-  set guifont=Source\ Code\ Pro:h12
+  set guifont=Consolas\ Regular\ 9
   colorscheme solarized
   set nonu
 endif
@@ -388,8 +424,8 @@ map <c-space> ?
 map <silent> <leader><cr> :noh<cr>
 "
 " Swap ; and :  Convenient.
-nnoremap ; :
-nnoremap : ;
+"nnoremap ; :
+"nnoremap : ;
 " remap Ack toggle
 noremap <leader>a :Ack<space>
 " remap NERDTreeToggle
@@ -405,6 +441,10 @@ nnoremap <leader>w <C-w>v,C-w>l
 setlocal indentexpr=GetGooglePythonIndent(v:lnum)
 
 let s:maxoff = 50 " maximum number of lines to look backwards.
+
+" YouCompleteMe
+"let g:ycm_autoclose_preview_window_after_completion=1
+"noremap <leader>d  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 function! GetGooglePythonIndent(lnum)
 
@@ -448,4 +488,4 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'some_bad_symbolic_links',
   \ }
 " use external tool
-"let g:ctrlp_user_command = 'find %s -type f' 
+
